@@ -1,10 +1,13 @@
 <?php 
+session_start();
 
 require_once("vendor/autoload.php");
 
 use \Slim\Slim;
 use \Icode\Page;
 use \Icode\PageAdmin;
+use \Icode\model\User;
+
 
 $app = new Slim();
 
@@ -20,8 +23,9 @@ $app->get('/', function() {// Template Index do site
 
 });
 
+$app->get('/admin', function() {// Template Index do site
 
-$app->get('/admin', function() {// Template Admin
+	User::verifyLogin();
 
 	$page = new PageAdmin();
 
@@ -29,7 +33,38 @@ $app->get('/admin', function() {// Template Admin
 
 });
 
+$app->get('/admin/login', function(){
+
+
+	$page = new PageAdmin([//desabilitando  header  e footer
+		"header"=>false,
+		"footer"=>false 
+	]);
+
+	$page->setTpl("login");
+});
+
+
+
+$app->post('/admin/login', function(){
+
+
+	User::login($_POST["login"],$_POST['password']);
+
+	header("location: /admin");
+	exit;
+
+});
+
+$app->get('/admin/logout', function(){
+
+	User::logout();
+
+	header("location: /admin/login");
+	exit;
+});
 
 $app->run();
+
 
 ?>

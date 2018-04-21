@@ -30,7 +30,7 @@ class Page {
 
 		$this->setData($this->options['data']);
 
-		$this->tpl->draw("header"); // inclui na pagina o (header)
+		if($this->options["header"] === true) $this->tpl->draw("header"); // se for true inclui na pagina o (header)
 
 	}
 
@@ -55,7 +55,7 @@ class Page {
 
 	public function __destruct(){
 
-		$this->tpl->draw("footer");
+		if($this->options["footer"] === true) $this->tpl->draw("footer");// ser options for true ,inclui o footer.
 	}
 }
 
