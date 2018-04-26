@@ -46,13 +46,13 @@
         <div class="col-xs-8">
           <div class="checkbox icheck">
             <label>
-              <input type="checkbox"> Remember Me
+              <input type="checkbox"> Lembrar-Me
             </label>
           </div>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
         </div>
         <!-- /.col -->
       </div>
@@ -67,7 +67,7 @@
     </div>
     <!-- /.social-auth-links -->
 
-    <a href="#">I forgot my password</a><br>
+    <a href="/admin/forgot">Esqueci minha Senha!</a><br>
     <a href="register.html" class="text-center">Register a new membership</a>
 
   </div>
