@@ -1,14 +1,20 @@
 <?php 
 use \Icode\Page;
 use \Icode\Model\category;
+use \Icode\Model\Product;
 
 //::::::::site home:::::::::::::::::
 
 $app->get('/', function() {// Template Index do site
 
+	$products = Product::listAll();
+
 	$page = new Page();
 
-	$page->setTpl("index");
+	$page->setTpl("index",[
+		'products'=>Product::cheklist($products)
+
+	]);
 
 });
 
