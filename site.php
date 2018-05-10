@@ -12,7 +12,7 @@ $app->get('/', function() {// Template Index do site
 	$page = new Page();
 
 	$page->setTpl("index",[
-		'products'=>Product::cheklist($products)
+		'products'=>Product::checkList($products)
 
 	]);
 
@@ -22,17 +22,23 @@ $app->get('/', function() {// Template Index do site
 //=================Categorias================================
 
 $app->get("/categories/:idcategory", function($idcategory){
-
+	$page = (isset($_GET['page'])) ? (int)$_GET['page'] : 1; // total de pagainas
 	$category = new Category();
 	$category->get((int)$idcategory);
-
-	$page = new Page();// front End
-
+	$pagination = $category->getProductsPage($page);
+	$pages = [];
+	for ($i=1; $i <= $pagination['pages']; $i++) { 
+		array_push($pages, [
+			'link'=>'/categories/'.$category->getidcategory().'?page='.$i,
+			'page'=>$i
+		]);
+	}
+	$page = new Page();
 	$page->setTpl("category", [
-		"category"=>$category->getValues(),
-		"products"=>Product::cheklist($category->getProducts())
+		'category'=>$category->getValues(),
+		'products'=>$pagination["data"],
+		'pages'=>$pages
 	]);
-
 });
 
 

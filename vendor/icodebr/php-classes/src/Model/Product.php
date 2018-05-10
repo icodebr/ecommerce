@@ -20,7 +20,7 @@ class Product extends Model {
 
 	}
 
-	public static function cheklist($list)
+	public static function checkList($list)
 	{
 		foreach ($list as &$row) {
 			$p = new Product();
