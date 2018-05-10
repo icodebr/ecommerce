@@ -3,6 +3,7 @@
 use \Icode\PageAdmin;
 use \Icode\model\User;
 use \Icode\model\Category;
+use \Icode\model\Product;
 
 // ======================ROTAS CATEGORIAS========================
 
@@ -78,7 +79,7 @@ $app->get("/admin/categories/:idcategory", function($idcategory){
 
 });
 
-	$app->post("/admin/categories/:idcategory", function($idcategory){
+$app->post("/admin/categories/:idcategory", function($idcategory){
 
 	User::verifyLogin();
 
@@ -95,6 +96,39 @@ $app->get("/admin/categories/:idcategory", function($idcategory){
 });
 
 
+$app->get("/admin/categories/:idcategory/products", function($idcategory){ // categorias x produtos...
+	User::verifyLogin();
+	$category = new Category();
+	$category->get((int)$idcategory);
+	$page = new PageAdmin();
+	$page->setTpl("categories-products", [
+		"category"=>$category->getValues(),
+		"productsRelated"=>$category->getProducts(),
+		"productsNotRelated"=>$category->getProducts(false)
+	]);
+});
+
+$app->get("/admin/categories/:idcategory/products/:idproduct/add", function($idcategory, $idproduct){
+	User::verifyLogin();
+	$category = new Category();
+	$category->get((int)$idcategory);
+	$product = new Product();
+	$product->get((int)$idproduct);
+	$category->addProduct($product);
+	header("Location: /admin/categories/".$idcategory."/products");
+	exit;
+});
+
+$app->get("/admin/categories/:idcategory/products/:idproduct/remove", function($idcategory, $idproduct){
+	User::verifyLogin();
+	$category = new Category();
+	$category->get((int)$idcategory);
+	$product = new Product();
+	$product->get((int)$idproduct);
+	$category->removeProduct($product);
+	header("Location: /admin/categories/".$idcategory."/products");
+	exit;
+});
 
 
 
